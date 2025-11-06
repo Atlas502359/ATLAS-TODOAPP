@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToDo App</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+var userlist = ["502359"];
+var login_password = "IT"
+function validate() {
+var password = document.getElementById("password").value;
+var username = document.getElementById("username").value;
+for (var i = 0; i < userlist.length; i++) {
+if ((userlist[i] == username) && (password == login_password)) {
+return true;
+}
+else {
+alert("You are not an user");
+return false;
+}
+}
+}
+</script>
+</head>
+<body>
+<div class="login">
+<h1 id="login-form">Login</h1>
+<form action="todopage.html" id="loginvalidation" onsubmit="return validate()">
+<label for="username">Username:</label> <input type="text" name="username"
+id="username">
+<br>
+<br>
+<label for="password">Password: </label><input type="password"
+name="password" id="password">
+<br>
+<br>
+<button type="submit" >Login</button>
+</div>
+</form>
+</body>
+</html>
