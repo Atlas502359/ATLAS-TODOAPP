@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TODO App</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .taskItem {
+    background: #f8f9fa;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .deleteBtn {
+    background-color: #dc3545;
+  }
+  .deleteBtn:hover {
+    background-color: #b02a37;
+  }
+</style>
+</head>
+<body>
+<h1 id="App-Bar">TODO APP</h1>
+<br><br>
+<button onclick="addTask()">Add a task</button>
+<ul id="dynamic-list"></ul>
+<script>
+window.onload = function () {
+  loadTasks();
+};
+function addTask() {
+  var taskname = prompt("Enter the task:");
+  if (!taskname) return;
+  var time = prompt("Enter the time and date:");
+  var task = {
+    taskname: taskname,
+    time: time
+  };
+  saveTask(task);
+  addTaskToList(task);
+}
+function saveTask(task) {
+  var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+function loadTasks() {
+  var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach(function (task) {
+    addTaskToList(task);
+  });
+}
+function addTaskToList(task) {
+  var taskList = document.getElementById("dynamic-list");
+  var newTask = document.createElement("li");
+  newTask.classList.add("taskItem");
+
+  newTask.innerHTML = `
+    <div>
+      <strong>Task:</strong> ${task.taskname} <br>
+      <strong>Time:</strong> ${task.time}
+    </div>
+    <button class="deleteBtn" onclick="deleteTask('${task.taskname}')">Delete</button>
+  `;
+
+  taskList.appendChild(newTask);
+}
+function deleteTask(taskname) {
+  var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  var updatedTasks = tasks.filter(task => task.taskname !== taskname);
+  localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  location.reload(); // Refresh the list
+}
+</script>
+</body>
+</html>
